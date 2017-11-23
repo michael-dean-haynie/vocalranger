@@ -1,6 +1,112 @@
 Project Notes
 
 
-== Initial DB setup
+== Initial DB setup ==================================================
 CREATE SCHEMA `vocalranger` ;
 GRANT ALL PRIVILEGES ON *.* TO 'vocalranger-app'@'localhost' IDENTIFIED BY 'password';
+
+
+== Schema planning ==================================================
+Note (all of these fields need to somehow have a predefined enum)
+  - hertz
+  - letter
+  - accidental
+  - octave
+
+Range
+  - lowFreq/lowKeyNo
+  - highFreq/highKeyNo
+  - register****
+  - recording
+
+* The following 3 asterisks are actually being replaced by id's for Register and RegisterSystem tables
+* register will be a special ID created by the ORM or something that identifies which system is being used (4reg or 3reg) which physiology (m or f) and which actual register within those. ex: 4RS-M-0 or 3RS-F-3
+* 4RS: Vocal Fry, Modal, Falsetto, whistle. 3RS: (men) chest, head, falsetto (women) chest, mid, head
+* there will also be a simple register that spans the whole vocal range. Just one low and one high. ex: 1RS
+
+Register
+  - name (ex: Vocal Fry | Modal | Falsetto | Whistle | Chest | Head | Simple)
+  - sex (ex: Male | Female)
+  - registerSystem
+  - color
+
+
+RegisterSystem
+  - name (ex: Simple Register System | 4 Register System | 3 Register System)
+  - description ?
+
+Recording
+  - date
+  - vocalist
+
+Ensemble
+  - name
+  - program
+  - active
+
+Ensemble_Vocalist
+  - ensemble
+  - vocalist
+
+Vocalist
+  - firstName
+  - lastName
+  - program
+  - externalKey
+  - sex
+
+Admin
+  - firstName
+  - lastName
+  - email
+  - password
+  - program
+  - isSuperAdmin
+  - defaultRegisterSystem
+
+Program
+  - name
+
+== Site Structure ==================================================
+/about (noauth)
+
+/admins (superadmins)
+/admins/{admin_id}
+/admins/create
+/admins/edit/{admin_id}
+/admins/delete/{admin_id}
+
+/programs
+/programs/{program_id}
+/programs/create
+/programs/edit/{program_id}
+/programs/delete/{program_id}
+
+/ensembles
+/ensambles/{ensamble_id}
+/ensambles/create
+/ensambles/edit/{ensamble_id}
+/ensambles/delete/{ensamble_id}
+
+/vocalists
+/vocalists/{vocalist_id}
+/vocalists/create
+/vocalists/edit/{vocalist_id}
+/vocalists/delete/{vocalist_id}
+
+/recordings
+/recordings/{recording_id}
+/recordings/create
+/recordings/edit/{recording_id}
+/recordings/delete/{recording_id}
+
+
+== Important links ==================================================
+https://github.com/learningmedia/jquery.klavier
+https://stackoverflow.com/a/29853874
+http://api.jqueryui.com/slider/#option-range
+
+== TODO ==================================================
+- Create Register and RegisterSystem tables
+  - Add default register to user table
+  - Add default register system to admin table
