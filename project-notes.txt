@@ -31,7 +31,7 @@ Register
   - color
 
 
-RegisterSystem
+System
   - name (ex: Simple Register System | 4 Register System | 3 Register System)
   - description ?
 
@@ -62,10 +62,10 @@ Admin
   - password
   - program
   - isSuperAdmin
-  - defaultRegisterSystem
 
 Program
   - name
+  - defaultSystem
 
 == Site Structure ==================================================
 /about (noauth)
@@ -107,6 +107,4 @@ https://stackoverflow.com/a/29853874
 http://api.jqueryui.com/slider/#option-range
 
 == TODO ==================================================
-- Create Register and RegisterSystem tables
-  - Add default register to user table
-  - Add default register system to admin table
+pu@ figure out eloquent and seeding with factories?

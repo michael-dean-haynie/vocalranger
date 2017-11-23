@@ -20,8 +20,8 @@ class BuildSchemas extends Migration
         //     $table->timestamps();
         // });
 
-        // ensenble
-        Schema:: create('ensenble', function($table){
+        // ensemble
+        Schema:: create('ensemble', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
@@ -42,6 +42,7 @@ class BuildSchemas extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
+            $table->bigInteger('default_system');
         });
 
         // ranges
@@ -61,12 +62,30 @@ class BuildSchemas extends Migration
             $table->bigInteger('vocalist');
         });
 
+        // registers
+        Schema:: create('registers', function($table){
+            $table->bigIncrements('id');
+            $table->timestamps();
+            $table->string('name');
+            $table->string('sex');
+            $table->bigInteger('system');
+            $table->string('color');
+        });
+
+        // systems
+        Schema:: create('systems', function($table){
+            $table->bigIncrements('id');
+            $table->timestamps();
+            $table->string('name');
+        });
+
         // vocalist
         Schema:: create('vocalist', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('given_name');
             $table->string('family_name');
+            $table->bigInteger('sex');
             $table->bigInteger('program');
             // $table->string('external_key');
         });
@@ -79,11 +98,13 @@ class BuildSchemas extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ensenble');
+        Schema::dropIfExists('ensemble');
         Schema::dropIfExists('ensamble_vocalist');
         Schema::dropIfExists('program');
         Schema::dropIfExists('ranges');
         Schema::dropIfExists('recordings');
+        Schema::dropIfExists('registers');
+        Schema::dropIfExists('systems');
         Schema::dropIfExists('vocalist');
     }
 }
