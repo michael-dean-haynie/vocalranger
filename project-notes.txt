@@ -1,0 +1,6 @@
+Project Notes
+
+
+== Initial DB setup
+CREATE SCHEMA `vocalranger` ;
+GRANT ALL PRIVILEGES ON *.* TO 'vocalranger-app'@'localhost' IDENTIFIED BY 'password';
