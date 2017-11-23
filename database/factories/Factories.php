@@ -13,13 +13,16 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
-    static $password;
+// // Class full of helper functions for seeding
+// abstract class Seedy{
+//   // Users
+//   public static function doThing(){
+//     return 'This is a thing!';
+//   }
+// }
 
-    return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
-    ];
-});
+// $factory->define(App\User::class, function (Faker $faker) {
+//   return [
+//     'name' => TestClass::doThing(),
+//   ];
+// });

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class BuildSchemas extends Migration
+class DefineSchemas extends Migration
 {
     /**
      * Run the migrations.
@@ -20,29 +20,36 @@ class BuildSchemas extends Migration
         //     $table->timestamps();
         // });
 
-        // ensemble
-        Schema:: create('ensemble', function($table){
+        // ensembles
+        Schema:: create('ensembles', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
-            $table->bigInteger('program');
+            $table->bigInteger('program_id');
             $table->boolean('active');
         });
 
-        // ensamble_vocalist
-        Schema:: create('ensamble_vocalist', function($table){
+        // ensemble_vocalist
+        Schema:: create('ensemble_vocalist', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->bigInteger('ensemble');
-            $table->bigInteger('vocalist');
+            $table->bigInteger('ensemble_id');
+            $table->bigInteger('vocalist_id');
         });
 
-        // program
-        Schema:: create('program', function($table){
+        // password_resets
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });
+
+        // programs
+        Schema:: create('programs', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
-            $table->bigInteger('default_system');
+            $table->bigInteger('default_system_id')->nullable();
         });
 
         // ranges
@@ -51,15 +58,15 @@ class BuildSchemas extends Migration
             $table->timestamps();
             $table->integer('lowKeyNo');
             $table->integer('highKeyNo');
-            $table->bigInteger('register');
-            $table->bigInteger('recording');
+            $table->bigInteger('register_id');
+            $table->bigInteger('recording_id');
         });
 
         // recordings
         Schema:: create('recordings', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->bigInteger('vocalist');
+            $table->bigInteger('vocalist_id');
         });
 
         // registers
@@ -68,7 +75,7 @@ class BuildSchemas extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('sex');
-            $table->bigInteger('system');
+            $table->bigInteger('system_id');
             $table->string('color');
         });
 
@@ -79,14 +86,28 @@ class BuildSchemas extends Migration
             $table->string('name');
         });
 
-        // vocalist
-        Schema:: create('vocalist', function($table){
+        // users 
+        Schema::create('users', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestamps();
+            $table->bigInteger('program_id')->nullable();
+            // $table->boolean('admin');
+            $table->boolean('super_admin');
+            $table->string('given_name');
+            $table->string('family_name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
+        });
+
+        // vocalists
+        Schema:: create('vocalists', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('given_name');
             $table->string('family_name');
-            $table->bigInteger('sex');
-            $table->bigInteger('program');
+            $table->string('sex');
+            $table->bigInteger('program_id');
             // $table->string('external_key');
         });
     }
@@ -98,13 +119,15 @@ class BuildSchemas extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ensemble');
-        Schema::dropIfExists('ensamble_vocalist');
-        Schema::dropIfExists('program');
+        Schema::dropIfExists('ensembles');
+        Schema::dropIfExists('ensemble_vocalist');
+        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('programs');
         Schema::dropIfExists('ranges');
         Schema::dropIfExists('recordings');
         Schema::dropIfExists('registers');
         Schema::dropIfExists('systems');
-        Schema::dropIfExists('vocalist');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('vocalists');
     }
 }
