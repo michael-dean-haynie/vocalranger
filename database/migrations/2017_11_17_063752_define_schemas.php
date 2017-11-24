@@ -56,8 +56,8 @@ class DefineSchemas extends Migration
         Schema:: create('ranges', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->integer('lowKeyNo');
-            $table->integer('highKeyNo');
+            $table->integer('low_key_no');
+            $table->integer('high_key_no');
             $table->bigInteger('register_id');
             $table->bigInteger('recording_id');
         });

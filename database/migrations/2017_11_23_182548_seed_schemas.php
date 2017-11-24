@@ -68,21 +68,21 @@ class SeedSchemas extends Migration
 
         // vocalists
         $ensm1 = [];
-        $ensm1[] = App\Vocalist::create(['id' => 1,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Scott',   'family_name' => 'Hoying']);
+        $ensm1[] = App\Vocalist::create(['id' => 1,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Scott',   'family_name' => 'Hoying']); // PTX
         $ensm1[] = App\Vocalist::create(['id' => 2,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Mitch',   'family_name' => 'Grassi']);
         $ensm1[] = App\Vocalist::create(['id' => 3,  'program_id' => 1, 'sex' => 'Female', 'given_name' => 'Kirstie', 'family_name' => 'Maldonado']);
         $ensm1[] = App\Vocalist::create(['id' => 4,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Avi',     'family_name' => 'Kaplan']);
         $ensm1[] = App\Vocalist::create(['id' => 5,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Kevin',   'family_name' => 'Olusola']);
 
         $ensm2 = [];
-        $ensm2[] = App\Vocalist::create(['id' => 6,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Layne',   'family_name' => 'Stein']);
+        $ensm2[] = App\Vocalist::create(['id' => 6,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Layne',   'family_name' => 'Stein']); // VoicePlay
         $ensm2[] = App\Vocalist::create(['id' => 7,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Geoff',   'family_name' => 'Castellucci']);
         $ensm2[] = App\Vocalist::create(['id' => 8,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Earl',    'family_name' => 'Ewlkins']);
         $ensm2[] = App\Vocalist::create(['id' => 9,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Eli',     'family_name' => 'Jacobson']);
         $ensm2[] = App\Vocalist::create(['id' => 10, 'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Tony',    'family_name' => 'Wakim']);
 
         $ensm3 = [];
-        $ensm3[] = App\Vocalist::create(['id' => 11, 'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Austin',  'family_name' => 'Brown']);
+        $ensm3[] = App\Vocalist::create(['id' => 11, 'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Austin',  'family_name' => 'Brown']); // Home Free
         $ensm3[] = App\Vocalist::create(['id' => 12, 'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Rob',     'family_name' => 'Lundquist']);
         $ensm3[] = App\Vocalist::create(['id' => 13, 'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Chris',   'family_name' => 'Rupp']);
         $ensm3[] = App\Vocalist::create(['id' => 14, 'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Tim',     'family_name' => 'Foust']);
@@ -91,14 +91,46 @@ class SeedSchemas extends Migration
         $prog1 = [$ensm1, $ensm2, $ensm3];
 
         // ensemble_vocalist
+        $now = \Carbon\Carbon::now();
         for ($e = 0; $e < count($prog1); $e++){
             $ensembleId = $e+1;
             $ensemble = $prog1[$e];
-            $now = \Carbon\Carbon::now();
             foreach($ensemble as $v){
                 DB::table('ensemble_vocalist')->insert(['ensemble_id' => $ensembleId, 'vocalist_id' => $v->id, 'created_at' => $now, 'updated_at' => $now]);
             }
         }
+
+        // // recordings
+        for ($e = 0; $e < count($prog1); $e++){
+            $ensemble = $prog1[$e];
+            foreach($ensemble as $v){
+                App\Recording::create(['id' => $v->id, 'vocalist_id' => $v->id]);
+            }
+        }
+
+        // ranges
+        App\Range::create(['id' => 1,  'recording_id' => 1,  'register_id' => 1, 'low_key_no' => 32, 'high_key_no' => 80]); // PTX
+        App\Range::create(['id' => 2,  'recording_id' => 2,  'register_id' => 1, 'low_key_no' => 45, 'high_key_no' => 107]);
+        App\Range::create(['id' => 3,  'recording_id' => 3,  'register_id' => 1, 'low_key_no' => 52, 'high_key_no' => 106]);
+        App\Range::create(['id' => 4,  'recording_id' => 4,  'register_id' => 1, 'low_key_no' => 27, 'high_key_no' => 73]);
+        App\Range::create(['id' => 5,  'recording_id' => 5,  'register_id' => 1, 'low_key_no' => 43, 'high_key_no' => 85]);
+
+        App\Range::create(['id' => 6,  'recording_id' => 6,  'register_id' => 1, 'low_key_no' => 33, 'high_key_no' => 82]); // VoicePlay
+        App\Range::create(['id' => 7,  'recording_id' => 7,  'register_id' => 1, 'low_key_no' => 29, 'high_key_no' => 79]);
+        App\Range::create(['id' => 8,  'recording_id' => 8,  'register_id' => 1, 'low_key_no' => 44, 'high_key_no' => 80]);
+        App\Range::create(['id' => 9,  'recording_id' => 9,  'register_id' => 1, 'low_key_no' => 46, 'high_key_no' => 79]);
+        // Could not find a range for Tony Wakim :/
+
+        App\Range::create(['id' => 11, 'recording_id' => 11, 'register_id' => 1, 'low_key_no' => 27, 'high_key_no' => 81]); // Home Free
+        App\Range::create(['id' => 12, 'recording_id' => 12, 'register_id' => 1, 'low_key_no' => 36, 'high_key_no' => 80]);
+        App\Range::create(['id' => 13, 'recording_id' => 13, 'register_id' => 1, 'low_key_no' => 32, 'high_key_no' => 80]);
+        App\Range::create(['id' => 14, 'recording_id' => 14, 'register_id' => 1, 'low_key_no' => 21, 'high_key_no' => 81]);
+        App\Range::create(['id' => 15, 'recording_id' => 15, 'register_id' => 1, 'low_key_no' => 31, 'high_key_no' => 96]);
+
+
+
+
+
 
 
 
@@ -116,7 +148,9 @@ class SeedSchemas extends Migration
      */
     public function down()
     {
-        // Should be in reverse order of the up() method
+        // Should be in reverse order of the up() metho
+        DB::statement('DELETE FROM ranges');
+        DB::statement('DELETE FROM recordings');
         DB::statement('DELETE FROM ensemble_vocalist');
         DB::statement('DELETE FROM vocalists');
         DB::statement('DELETE FROM users');
