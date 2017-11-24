@@ -17,12 +17,20 @@ class SeedSchemas extends Migration
         // factory example
         // factory(App\System::class, 5)->create();
 
-        // systems
+        /*
+        |--------------------------------------------------
+        | systems
+        |--------------------------------------------------
+        */
         App\System::create(['id' => 1, 'name' => '1 Register System']);
         App\System::create(['id' => 2, 'name' => '3 Register System']);
         App\System::create(['id' => 3, 'name' => '4 Register System']);
 
-        // registers
+        /*
+        |--------------------------------------------------
+        | registers
+        |--------------------------------------------------
+        */
         App\Register::create(['id' => 1,  'system_id' => 1, 'sex' => 'Male',   'name' => 'Simple',    'color' => 'red']);
         App\Register::create(['id' => 2,  'system_id' => 1, 'sex' => 'Female', 'name' => 'Simple',    'color' => 'red']);
         App\Register::create(['id' => 3,  'system_id' => 2, 'sex' => 'Male',   'name' => 'Chest',     'color' => 'red']);
@@ -40,12 +48,20 @@ class SeedSchemas extends Migration
         App\Register::create(['id' => 15, 'system_id' => 3, 'sex' => 'Female', 'name' => 'Falsetto',  'color' => 'red']);
         App\Register::create(['id' => 16, 'system_id' => 3, 'sex' => 'Female', 'name' => 'Whistle',   'color' => 'red']);
 
-        // programs
+        /*
+        |--------------------------------------------------
+        | programs
+        |--------------------------------------------------
+        */
         App\Program::create(['id' => 1, 'default_system_id' => 1, 'name' => 'A Cappella Groups']);
         App\Program::create(['id' => 2, 'default_system_id' => 2, 'name' => 'Reach High']);
         App\Program::create(['id' => 3, 'default_system_id' => 3, 'name' => 'Reach University']);
 
-        // users
+        /*
+        |--------------------------------------------------
+        | users
+        |--------------------------------------------------
+        */
         App\User::create(['id' => 1, 'super_admin' => 1, 'program_id' => null, 'given_name' => 'Michael', 'family_name' => 'Haynie',     'email' => 'michael.dean.haynie@gmail.com', 'password' => Hash::make('michaelhaynie')]);
         App\User::create(['id' => 2, 'super_admin' => 1, 'program_id' => null, 'given_name' => 'Hello',   'family_name' => 'World',      'email' => 'hello@world.com',               'password' => Hash::make('helloworld')]);
         App\User::create(['id' => 3, 'super_admin' => 0, 'program_id' => 1,    'given_name' => 'Bruce',   'family_name' => 'Morganti',   'email' => 'bruce@morganti.com',            'password' => Hash::make('brucemorganti')]);
@@ -53,7 +69,11 @@ class SeedSchemas extends Migration
         App\User::create(['id' => 5, 'super_admin' => 0, 'program_id' => 2,    'given_name' => 'James',   'family_name' => 'Matsushino', 'email' => 'james@matsushino.com',          'password' => Hash::make('jamesmatsushino')]);
         App\User::create(['id' => 6, 'super_admin' => 0, 'program_id' => 3,    'given_name' => 'Sabrina', 'family_name' => 'Petty',      'email' => 'sabrina@petty.com',             'password' => Hash::make('sabrinapetty')]);
 
-        // ensembles
+        /*
+        |--------------------------------------------------
+        | ensembles
+        |--------------------------------------------------
+        */
         App\Ensemble::create(['id' => 1,  'active' => TRUE,  'program_id' => 1, 'name' => 'Pentatonix']);
         App\Ensemble::create(['id' => 2,  'active' => TRUE,  'program_id' => 1, 'name' => 'VoicePlay']);
         App\Ensemble::create(['id' => 3,  'active' => TRUE,  'program_id' => 1, 'name' => 'Home Free']);
@@ -66,7 +86,11 @@ class SeedSchemas extends Migration
         App\Ensemble::create(['id' => 10, 'active' => TRUE,  'program_id' => 3, 'name' => 'Barbershop Choir']);
         App\Ensemble::create(['id' => 11, 'active' => FALSE, 'program_id' => 3, 'name' => 'Community Choir']);
 
-        // vocalists
+        /*
+        |--------------------------------------------------
+        | vocalists
+        |--------------------------------------------------
+        */
         $ensm1 = [];
         $ensm1[] = App\Vocalist::create(['id' => 1,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Scott',   'family_name' => 'Hoying']); // PTX
         $ensm1[] = App\Vocalist::create(['id' => 2,  'program_id' => 1, 'sex' => 'Male',   'given_name' => 'Mitch',   'family_name' => 'Grassi']);
@@ -90,8 +114,19 @@ class SeedSchemas extends Migration
 
         $prog1 = [$ensm1, $ensm2, $ensm3];
 
-        // ensemble_vocalist
+        $prog2Count = 200;
+        $prog3Count = 500;
+        $prog2 = factory(App\Vocalist::class, $prog2Count)->create(['program_id' => 2]);
+        $prog3 = factory(App\Vocalist::class, $prog3Count)->create(['program_id' => 3]);
+
+        /*
+        |--------------------------------------------------
+        | ensemble_vocalist
+        |--------------------------------------------------
+        */
         $now = \Carbon\Carbon::now();
+
+        // program 1
         for ($e = 0; $e < count($prog1); $e++){
             $ensembleId = $e+1;
             $ensemble = $prog1[$e];
@@ -100,7 +135,46 @@ class SeedSchemas extends Migration
             }
         }
 
-        // // recordings
+        // program 2
+        $ensembleCount = intval($prog2Count/3);
+
+        $beginning = $prog2->sortBy('id')->forPage(1, $ensembleCount);
+        $beginning->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 4, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+
+        $advanced = $prog2->sortBy('id')->forPage(2, $ensembleCount);
+        $advanced->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 5, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+
+        $show = $prog2->sortBy('id')->forPage(3, $ensembleCount);
+        $show->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 6, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+
+        $blu = $prog2->where('sex', 'Male')->random($ensembleCount);
+        $blu->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 7, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+
+        // program 3
+        $ensembleCount = intval($prog3Count/4);
+
+        $gospel = $prog3->sortBy('id')->forPage(1, $ensembleCount);
+        $gospel->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 8, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+
+        $jazz = $prog3->sortBy('id')->forPage(2, $ensembleCount);
+        $jazz->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 9, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+
+        $barbershop = $prog3->sortBy('id')->forPage(3, $ensembleCount);
+        $barbershop->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 10, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+
+        $community = $prog3->sortBy('id')->forPage(4, $ensembleCount);
+        $community->map(function($v){ DB::table('ensemble_vocalist')->insert(['ensemble_id' => 11, 'vocalist_id' => $v->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]); });
+        
+        /*
+        |--------------------------------------------------
+        | recordings
+        |--------------------------------------------------
+        */
+        $now = \Carbon\Carbon::now();
+        $nowMin1Y = \Carbon\Carbon::now()->subYears(1);
+        $nowMin2Y = \Carbon\Carbon::now()->subYears(2);
+
+        // program 1
         for ($e = 0; $e < count($prog1); $e++){
             $ensemble = $prog1[$e];
             foreach($ensemble as $v){
@@ -108,7 +182,30 @@ class SeedSchemas extends Migration
             }
         }
 
-        // ranges
+        // program 2
+        $prog2Recs = [];
+        for($vIdx = 0; $vIdx < count($prog2); $vIdx++){
+            $v = $prog2[$vIdx];
+            $prog2Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $now,      'updated_at' => $now]);
+            $prog2Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin1Y, 'updated_at' => $nowMin1Y]);
+            $prog2Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin2Y, 'updated_at' => $nowMin2Y]);
+        }
+
+        // program 3
+        $prog3Recs = [];
+        for($vIdx = 0; $vIdx < count($prog3); $vIdx++){
+            $v = $prog3[$vIdx];
+            $prog3Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $now     , 'updated_at' => $now]);
+            $prog3Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin1Y, 'updated_at' => $nowMin1Y]);
+            $prog3Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin2Y, 'updated_at' => $nowMin2Y]);
+        }
+
+        /*
+        |--------------------------------------------------
+        | ranges
+        |--------------------------------------------------
+        */
+        // program 1
         App\Range::create(['id' => 1,  'recording_id' => 1,  'register_id' => 1, 'low_key_no' => 32, 'high_key_no' => 80]); // PTX
         App\Range::create(['id' => 2,  'recording_id' => 2,  'register_id' => 1, 'low_key_no' => 45, 'high_key_no' => 107]);
         App\Range::create(['id' => 3,  'recording_id' => 3,  'register_id' => 1, 'low_key_no' => 52, 'high_key_no' => 106]);
@@ -126,6 +223,8 @@ class SeedSchemas extends Migration
         App\Range::create(['id' => 13, 'recording_id' => 13, 'register_id' => 1, 'low_key_no' => 32, 'high_key_no' => 80]);
         App\Range::create(['id' => 14, 'recording_id' => 14, 'register_id' => 1, 'low_key_no' => 21, 'high_key_no' => 81]);
         App\Range::create(['id' => 15, 'recording_id' => 15, 'register_id' => 1, 'low_key_no' => 31, 'high_key_no' => 96]);
+
+
 
 
 
@@ -157,5 +256,9 @@ class SeedSchemas extends Migration
         DB::statement('DELETE FROM programs');
         DB::statement('DELETE FROM registers');
         DB::statement('DELETE FROM systems');
+    }
+
+    private function doathing(){
+        // do nothing
     }
 }

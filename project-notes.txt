@@ -107,4 +107,4 @@ https://stackoverflow.com/a/29853874
 http://api.jqueryui.com/slider/#option-range
 
 == TODO ==================================================
-pu@ continue with prog1 relations
+pu@ finish prog2 and prog3 ranges (function)

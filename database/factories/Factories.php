@@ -21,8 +21,14 @@ use Faker\Generator as Faker;
 //   }
 // }
 
-// $factory->define(App\User::class, function (Faker $faker) {
-//   return [
-//     'name' => TestClass::doThing(),
-//   ];
-// });
+$factory->define(App\Vocalist::class, function (Faker $faker) {
+  $isMale = rand(0,1);
+  $givenName = $isMale ? $faker->firstNameMale : $faker->firstNameFemale;
+  $sex = $isMale ? 'Male' : 'Female';
+  
+  return [
+    'family_name' => $faker->lastName,
+    'given_name' => $givenName,
+    'sex' => $sex,
+  ];
+});
