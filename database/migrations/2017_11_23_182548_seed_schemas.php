@@ -184,20 +184,18 @@ class SeedSchemas extends Migration
 
         // program 2
         $prog2Recs = [];
-        for($vIdx = 0; $vIdx < count($prog2); $vIdx++){
-            $v = $prog2[$vIdx];
-            $prog2Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $now,      'updated_at' => $now]);
-            $prog2Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin1Y, 'updated_at' => $nowMin1Y]);
-            $prog2Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin2Y, 'updated_at' => $nowMin2Y]);
+        foreach($prog2 as $v){
+            $prog2Recs[] = [ 'recording' => App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $now,      'updated_at' => $now]), 'vocalist' => $v];
+            $prog2Recs[] = [ 'recording' => App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin1Y, 'updated_at' => $nowMin1Y]), 'vocalist' => $v];
+            $prog2Recs[] = [ 'recording' => App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin2Y, 'updated_at' => $nowMin2Y]), 'vocalist' => $v];
         }
 
         // program 3
         $prog3Recs = [];
-        for($vIdx = 0; $vIdx < count($prog3); $vIdx++){
-            $v = $prog3[$vIdx];
-            $prog3Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $now     , 'updated_at' => $now]);
-            $prog3Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin1Y, 'updated_at' => $nowMin1Y]);
-            $prog3Recs[] = App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin2Y, 'updated_at' => $nowMin2Y]);
+        foreach($prog3 as $v){
+            $prog3Recs[] = [ 'recording' => App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $now     , 'updated_at' => $now]), 'vocalist' => $v];
+            $prog3Recs[] = [ 'recording' => App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin1Y, 'updated_at' => $nowMin1Y]), 'vocalist' => $v];
+            $prog3Recs[] = [ 'recording' => App\Recording::create(['vocalist_id' => $v->id, 'created_at' => $nowMin2Y, 'updated_at' => $nowMin2Y]), 'vocalist' => $v];
         }
 
         /*
@@ -224,20 +222,15 @@ class SeedSchemas extends Migration
         App\Range::create(['id' => 14, 'recording_id' => 14, 'register_id' => 1, 'low_key_no' => 21, 'high_key_no' => 81]);
         App\Range::create(['id' => 15, 'recording_id' => 15, 'register_id' => 1, 'low_key_no' => 31, 'high_key_no' => 96]);
 
+        // program 2
+        foreach($prog2Recs as $rec){
+            $this->createRange($rec['recording'], 2, $rec['vocalist']);
+        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // program 3
+        foreach($prog2Recs as $rec){
+            $this->createRange($rec['recording'], 3, $rec['vocalist']);
+        }
     }
 
     /**
@@ -258,7 +251,85 @@ class SeedSchemas extends Migration
         DB::statement('DELETE FROM systems');
     }
 
-    private function doathing(){
-        // do nothing
+    public function createRange($recording, $system_id, $vocalist){
+        $isMale = ($vocalist->sex == 'Male');
+
+        // total range centers
+        $trc_m = 54;
+        $trc_f = 69;
+
+        // total range bases
+        $trb_m = 22;
+        $trb_f = 24;
+
+        // total range center fluctuations
+        $trcf_min = -4;
+        $trcf_max = 4;
+
+        // total range base fluctuations
+        $trbf_min = -2;
+        $trbf_max = 2;
+
+        // register percentages (all the same for now)
+        $reg_perc = 1/3;
+
+        // register overlap base
+        $rob = 1;
+
+        // register overlap base fluctuations
+        $robf_min = -1;
+        $robf_max = 2;
+
+        // begin calculations
+        $totalRangeCenter = $isMale ? $trc_m : $trc_f;
+        $totalRangeCenter = $totalRangeCenter + rand($trcf_min, $trcf_max);
+
+        $totalRange = $isMale ? $trb_m : $trb_f;
+        $totalRange = $totalRange + rand($trbf_min, $trbf_max);
+
+        // nail out registers
+        $rangeLow = $totalRangeCenter - intval($totalRange/2);
+        $rangeHigh = $totalRangeCenter + intval($totalRange/2);
+
+        $bottomLow = $rangeLow;
+        $bottomHigh = $rangeLow + intval($totalRange*$reg_perc);
+
+        $middleLow = $bottomHigh + 1;
+        $middleHigh = $middleLow + intval($totalRange*$reg_perc);
+
+        $topLow = $middleHigh + 1;
+        $topHigh = $rangeHigh;
+
+        // overlap
+        $bottomMiddleOL = $rob + rand($robf_min, $robf_max);
+        $middleTopOL = $rob + rand($robf_min, $robf_max);
+
+        $bottomHigh = $bottomHigh + $bottomMiddleOL;
+        $middleLow = $middleLow - $bottomMiddleOL;
+
+        $middleHigh = $middleHigh + $middleTopOL;
+        $topLow = $topLow - $middleTopOL;
+        
+        // vocal fry
+        $vfHigh = $bottomLow -1;
+        $vfLow = $vfHigh - intval($reg_perc);
+
+        $vfOL = $rob + rand($robf_min, $robf_max);
+        $vfHigh = $vfHigh + $vfOL;
+        $bottomLow = $bottomLow - $vfOL;
+
+
+        // save stuffs
+        if ($system_id == 2){
+            App\Range::create(['recording_id' => $recording->id, 'register_id' => ($isMale ? 3  : 6),  'low_key_no' => $bottomLow, 'high_key_no' => $bottomHigh]);
+            App\Range::create(['recording_id' => $recording->id, 'register_id' => ($isMale ? 4  : 7),  'low_key_no' => $middleLow, 'high_key_no' => $middleHigh]);
+            App\Range::create(['recording_id' => $recording->id, 'register_id' => ($isMale ? 5  : 8),  'low_key_no' => $topLow, 'high_key_no' => $topHigh]);
+        }
+        if ($system_id == 3){
+            App\Range::create(['recording_id' => $recording->id, 'register_id' => ($isMale ? 9  : 13), 'low_key_no' => $vfLow, 'high_key_no' => $vfHigh]);
+            App\Range::create(['recording_id' => $recording->id, 'register_id' => ($isMale ? 10 : 14), 'low_key_no' => $bottomLow, 'high_key_no' => $bottomHigh]);
+            App\Range::create(['recording_id' => $recording->id, 'register_id' => ($isMale ? 11 : 15), 'low_key_no' => $middleLow, 'high_key_no' => $middleHigh]);
+            App\Range::create(['recording_id' => $recording->id, 'register_id' => ($isMale ? 12 : 16), 'low_key_no' => $topLow, 'high_key_no' => $topHigh]);
+        }
     }
 }
