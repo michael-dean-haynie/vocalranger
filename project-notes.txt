@@ -107,7 +107,8 @@ https://stackoverflow.com/a/29853874
 http://api.jqueryui.com/slider/#option-range
 
 == TODO ==================================================
-pu@ finish ranges seeding. 
+pu@ add a logout route (https://stackoverflow.com/questions/43585416/how-to-logout-and-redirect-to-login-page-using-laravel-5-4)
+
 
 Soprano:       C4-C6 (60-84)
 Mezzo-soprano: A3-A5 (57-81)
@@ -115,4 +116,3 @@ Contralto:     F3-E5 (53-76)
 Tenor:         B2-A4 (47-69)
 Baritone:      G2-F4 (43-65)
 Bass:          E2-E4 (40-64)
-

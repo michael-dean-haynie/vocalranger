@@ -11,6 +11,16 @@
 |
 */
 
+Auth::routes();
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect()->route('about');
+})->name('root');
+
+Route::get('/home', function () {
+    return redirect()->route('about');
+})->name('home');
