@@ -11,20 +11,42 @@
 |
 */
 
-// auth
+/*
+|--------------------------------------------------------------------------
+| Auth
+|--------------------------------------------------------------------------
+*/
 Auth::routes();
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
-// root
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
-
+/*
+|--------------------------------------------------------------------------
+| Root / About / Home
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
-    return redirect()->route('about');
+  if(Auth::check()){
+    return redirect('/programs');
+  }
+
+  return redirect()->route('about');
 })->name('root');
 
+Route::get('/about', function () {
+  return view('about');
+})->name('about');
+
 Route::get('/home', function () {
-    return redirect()->route('about');
+  return redirect()->route('root');
 })->name('home');
+
+/*
+|--------------------------------------------------------------------------
+| Crud
+|--------------------------------------------------------------------------
+*/
+
+
+
+

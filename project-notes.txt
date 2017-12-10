@@ -121,7 +121,7 @@ http://api.jqueryui.com/slider/#option-range
 
 
 == TODO ==================================================
-pu@ build rebuild existing pages with foundation, build main navigation, then start building the crud forms?
+pu@ build main navigation, then start building the crud forms?
 
 FORM SNIPPETS
 
