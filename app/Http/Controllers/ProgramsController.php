@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+class ProgramsController extends Controller
+{
+  public function index($program_id){
+    return
+  }
+}

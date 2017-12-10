@@ -1,3 +1,8 @@
+@yield('active-menu')
+@if(!isset($activeMenu)) @php $activeMenu = '' @endphp @endif
+
+
+
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
@@ -18,7 +23,7 @@
 </head>
 <body>
     <div id="app">
-        @include('shared/navbar')
+        @include('shared/nav')
 
         @yield('content')
     </div>

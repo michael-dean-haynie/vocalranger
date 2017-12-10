@@ -18,7 +18,7 @@
 */
 Auth::routes();
 
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-  if(Auth::check()){
+  if(Auth::check() && Auth::user()->super_admin){
     return redirect('/programs');
   }
 
@@ -46,7 +46,3 @@ Route::get('/home', function () {
 | Crud
 |--------------------------------------------------------------------------
 */
-
-
-
-

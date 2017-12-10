@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
-@section('content')
- 
-<h1>About</h1>
-<p>You are logged in!</p>
+@section('active-menu') @php $activeMenu = 'about'; @endphp @endsection
 
+@section('content')
+  <h1>About</h1>
 @endsection
