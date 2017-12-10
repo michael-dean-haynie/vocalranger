@@ -8,15 +8,15 @@
                 <li><a href="#">Admins</a></li>
                 <li><a href="#">Programs</a></li>
             @endif
-            <li><a class="{{ \App\Custom\Helpers::checkAct($activeMenu, 'about') }}" href="{{ route('about') }}">About</a></li>
+            <li><a class="{{ Helpers::checkAct($activeMenu, 'about') }}" href="{{ route('about') }}">About</a></li>
         </ul>
     </div>
     <div class="top-bar-right">
         <ul class="dropdown menu">
             @if($navData->isAuthed)
-                <li><span><a class="{{ \App\Custom\Helpers::checkAct($activeMenu, 'auth') }}" href="{{ route('logout') }}">{{ $navData->user->given_name }}</a></span></li>
+                <li><span><a class="{{ Helpers::checkAct($activeMenu, 'auth') }}" href="{{ route('logout') }}">{{ $navData->user->given_name }}</a></span></li>
             @else
-                <li><span><a class="{{ \App\Custom\Helpers::checkAct($activeMenu, 'auth') }}" href="{{ route('login') }}">Login</a></span></li>
+                <li><span><a class="{{ Helpers::checkAct($activeMenu, 'auth') }}" href="{{ route('login') }}">Login</a></span></li>
             @endif
         </ul>
     </div>
