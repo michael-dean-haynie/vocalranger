@@ -106,8 +106,24 @@ https://github.com/learningmedia/jquery.klavier
 https://stackoverflow.com/a/29853874
 http://api.jqueryui.com/slider/#option-range
 
+== Snippets ==================================================
+
+<form method="POST" action="{{ route('') }}">
+    {{ csrf_field() }}
+
+    @include('shared/error-state')
+
+    <div>
+        <button type="submit" class="button">Login</button>
+        <a class="" href="{{ route('password.request') }}">Forgot Your Password?</a>
+    </div>
+</form>
+
+
 == TODO ==================================================
 pu@ build rebuild existing pages with foundation, build main navigation, then start building the crud forms?
+
+FORM SNIPPETS
 
 
 Soprano:       C4-C6 (60-84)

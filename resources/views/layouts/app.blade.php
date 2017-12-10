@@ -11,6 +11,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- CSS -->
+    <!-- NOTE: Using Foundation 6.4.2 -->
     <link href="{{ asset('foundation/css/foundation.min.css') }}" rel="stylesheet"></link>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
