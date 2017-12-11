@@ -50,6 +50,7 @@ class DefineSchemas extends Migration
             $table->timestamps();
             $table->string('name');
             $table->bigInteger('default_system_id')->nullable();
+            $table->boolean('active');
         });
 
         // ranges

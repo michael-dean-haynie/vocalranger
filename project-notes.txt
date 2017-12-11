@@ -66,6 +66,7 @@ Admin
 Program
   - name
   - defaultSystem
+  - active
 
 == Site Structure ==================================================
 /about (noauth)

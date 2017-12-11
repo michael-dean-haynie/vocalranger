@@ -53,9 +53,9 @@ class SeedSchemas extends Migration
         | programs
         |--------------------------------------------------
         */
-        App\Program::create(['id' => 1, 'default_system_id' => 1, 'name' => 'A Cappella Groups']);
-        App\Program::create(['id' => 2, 'default_system_id' => 2, 'name' => 'Reach High']);
-        App\Program::create(['id' => 3, 'default_system_id' => 3, 'name' => 'Reach University']);
+        App\Program::create(['id' => 1, 'default_system_id' => 1, 'active' => true, 'name' => 'A Cappella Groups']);
+        App\Program::create(['id' => 2, 'default_system_id' => 2, 'active' => true, 'name' => 'Reach High']);
+        App\Program::create(['id' => 3, 'default_system_id' => 3, 'active' => true, 'name' => 'Reach University']);
 
         /*
         |--------------------------------------------------
