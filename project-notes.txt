@@ -124,6 +124,10 @@ http://api.jqueryui.com/slider/#option-range
 == TODO ==================================================
 pu@ build main navigation, then start building the crud forms?
 
+
+- Figure out general pager
+- Look into eloquent vs query builder
+
 FORM SNIPPETS
 
 

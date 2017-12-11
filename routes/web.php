@@ -46,3 +46,10 @@ Route::get('/home', function () {
 | Crud
 |--------------------------------------------------------------------------
 */
+
+Route::middleware('auth')->group(function(){
+  
+  // Programs
+  Route::get('/programs', 'ProgramsController@index');
+});
+
