@@ -15,13 +15,13 @@ class DefineSchemas extends Migration
     {
 
         // // TABLENAME
-        // Schema:: create('TABLENAME', function($table){
+        // Schema::create('TABLENAME', function($table){
         //     $table->bigIncrements('id');
         //     $table->timestamps();
         // });
 
         // ensembles
-        Schema:: create('ensembles', function($table){
+        Schema::create('ensembles', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
@@ -30,7 +30,7 @@ class DefineSchemas extends Migration
         });
 
         // ensemble_vocalist
-        Schema:: create('ensemble_vocalist', function($table){
+        Schema::create('ensemble_vocalist', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->bigInteger('ensemble_id');
@@ -45,7 +45,7 @@ class DefineSchemas extends Migration
         });
 
         // programs
-        Schema:: create('programs', function($table){
+        Schema::create('programs', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
@@ -53,8 +53,16 @@ class DefineSchemas extends Migration
             $table->boolean('active');
         });
 
+        // program_user
+        Schema::create('program_user', function($table){
+            $table->bigIncrements('id');
+            $table->timestamps();
+            $table->bigInteger('program_id');
+            $table->bigInteger('user_id');
+        });
+
         // ranges
-        Schema:: create('ranges', function($table){
+        Schema::create('ranges', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->integer('low_key_no');
@@ -64,14 +72,14 @@ class DefineSchemas extends Migration
         });
 
         // recordings
-        Schema:: create('recordings', function($table){
+        Schema::create('recordings', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->bigInteger('vocalist_id');
         });
 
         // registers
-        Schema:: create('registers', function($table){
+        Schema::create('registers', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
@@ -81,7 +89,7 @@ class DefineSchemas extends Migration
         });
 
         // systems
-        Schema:: create('systems', function($table){
+        Schema::create('systems', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('name');
@@ -91,7 +99,7 @@ class DefineSchemas extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
-            $table->bigInteger('program_id')->nullable();
+            // $table->bigInteger('program_id')->nullable();
             // $table->boolean('admin');
             $table->boolean('super_admin');
             $table->string('given_name');
@@ -102,7 +110,7 @@ class DefineSchemas extends Migration
         });
 
         // vocalists
-        Schema:: create('vocalists', function($table){
+        Schema::create('vocalists', function($table){
             $table->bigIncrements('id');
             $table->timestamps();
             $table->string('given_name');
@@ -124,6 +132,7 @@ class DefineSchemas extends Migration
         Schema::dropIfExists('ensemble_vocalist');
         Schema::dropIfExists('password_resets');
         Schema::dropIfExists('programs');
+        Schema::dropIfExists('program_user');
         Schema::dropIfExists('ranges');
         Schema::dropIfExists('recordings');
         Schema::dropIfExists('registers');

@@ -62,13 +62,27 @@ class SeedSchemas extends Migration
         | users
         |--------------------------------------------------
         */
-        App\User::create(['id' => 1, 'super_admin' => 1, 'program_id' => null, 'given_name' => 'Michael', 'family_name' => 'Haynie',     'email' => 'michael.dean.haynie@gmail.com', 'password' => Hash::make('michaelhaynie')]);
-        App\User::create(['id' => 2, 'super_admin' => 1, 'program_id' => null, 'given_name' => 'Hello',   'family_name' => 'World',      'email' => 'hello@world.com',               'password' => Hash::make('helloworld')]);
-        App\User::create(['id' => 3, 'super_admin' => 0, 'program_id' => 1,    'given_name' => 'Bruce',   'family_name' => 'Morganti',   'email' => 'bruce@morganti.com',            'password' => Hash::make('brucemorganti')]);
-        App\User::create(['id' => 4, 'super_admin' => 0, 'program_id' => 1,    'given_name' => 'Jeremy',  'family_name' => 'Vega',       'email' => 'jeremy@vega.com',               'password' => Hash::make('jeremyvega')]);
-        App\User::create(['id' => 5, 'super_admin' => 0, 'program_id' => 2,    'given_name' => 'James',   'family_name' => 'Matsushino', 'email' => 'james@matsushino.com',          'password' => Hash::make('jamesmatsushino')]);
-        App\User::create(['id' => 6, 'super_admin' => 0, 'program_id' => 3,    'given_name' => 'Sabrina', 'family_name' => 'Petty',      'email' => 'sabrina@petty.com',             'password' => Hash::make('sabrinapetty')]);
+        App\User::create(['id' => 1, 'super_admin' => 1, 'given_name' => 'Michael', 'family_name' => 'Haynie',     'email' => 'michael.dean.haynie@gmail.com', 'password' => Hash::make('michaelhaynie')]);
+        App\User::create(['id' => 2, 'super_admin' => 1, 'given_name' => 'Hello',   'family_name' => 'World',      'email' => 'hello@world.com',               'password' => Hash::make('helloworld')]);
+        App\User::create(['id' => 3, 'super_admin' => 0, 'given_name' => 'Bruce',   'family_name' => 'Morganti',   'email' => 'bruce@morganti.com',            'password' => Hash::make('brucemorganti')]);
+        App\User::create(['id' => 4, 'super_admin' => 0, 'given_name' => 'Jeremy',  'family_name' => 'Vega',       'email' => 'jeremy@vega.com',               'password' => Hash::make('jeremyvega')]);
+        App\User::create(['id' => 5, 'super_admin' => 0, 'given_name' => 'James',   'family_name' => 'Matsushino', 'email' => 'james@matsushino.com',          'password' => Hash::make('jamesmatsushino')]);
+        App\User::create(['id' => 6, 'super_admin' => 0, 'given_name' => 'Sabrina', 'family_name' => 'Petty',      'email' => 'sabrina@petty.com',             'password' => Hash::make('sabrinapetty')]);
 
+        /*
+        |--------------------------------------------------
+        | program_user
+        |--------------------------------------------------
+        */
+        $now = \Carbon\Carbon::now();
+
+        DB::table('program_user')->insert(['user_id' => 3, 'program_id' => 1, 'created_at' => $now, 'updated_at' => $now]);
+        DB::table('program_user')->insert(['user_id' => 3, 'program_id' => 2, 'created_at' => $now, 'updated_at' => $now]);
+        DB::table('program_user')->insert(['user_id' => 3, 'program_id' => 3, 'created_at' => $now, 'updated_at' => $now]);
+        DB::table('program_user')->insert(['user_id' => 4, 'program_id' => 1, 'created_at' => $now, 'updated_at' => $now]);
+        DB::table('program_user')->insert(['user_id' => 5, 'program_id' => 2, 'created_at' => $now, 'updated_at' => $now]);
+        DB::table('program_user')->insert(['user_id' => 6, 'program_id' => 3, 'created_at' => $now, 'updated_at' => $now]);
+        
         /*
         |--------------------------------------------------
         | ensembles
@@ -240,11 +254,13 @@ class SeedSchemas extends Migration
      */
     public function down()
     {
-        // Should be in reverse order of the up() metho
+        // Should be in reverse order of the up() method
         DB::statement('DELETE FROM ranges');
         DB::statement('DELETE FROM recordings');
         DB::statement('DELETE FROM ensemble_vocalist');
         DB::statement('DELETE FROM vocalists');
+        DB::statement('DELETE FROM ensembles');
+        DB::statement('DELETE FROM program_user');
         DB::statement('DELETE FROM users');
         DB::statement('DELETE FROM programs');
         DB::statement('DELETE FROM registers');

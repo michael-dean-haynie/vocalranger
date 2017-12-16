@@ -32,7 +32,7 @@ Register
 
 
 System
-  - name (ex: Simple Register System | 4 Register System | 3 Register System)
+  - name (ex: (Simple | 1) Register System | 4 Register System | 3 Register System)
   - description ?
 
 Recording
