@@ -50,5 +50,6 @@ Route::get('/home', function () {
 Route::middleware('auth')->group(function(){
   
   // Programs
-  Route::get('/programs', 'ProgramsController@index');
+  Route::get('/programs',      'ProgramsController@get_index');
+  Route::get('/programs/{id}', 'ProgramsController@get_details');
 });

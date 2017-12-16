@@ -15,7 +15,7 @@
   <tbody>
     @foreach($programs as $program)
       <tr>
-        <td>{{ $program->name }}</td>
+        <td><a href='{{ $program->getDetailsUrl() }}'>{{ $program->name }}</a></td>
         <td>{{ $program->defaultSystem->name }}</td>
         <td>{{ $program->ensembles->count() }}</td>
         <td>{{ $program->vocalists->count() }}</td>

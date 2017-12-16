@@ -8,7 +8,12 @@ use App\User;
 
 class ProgramsController extends Controller
 {
-  public function index(){
+  /*
+  |--------------------------------------------------------------------------
+  | Index
+  |--------------------------------------------------------------------------
+  */
+  public function get_index(){
 
     if(\Auth::user()->super_admin){
       $programs = Program::query()
@@ -18,9 +23,35 @@ class ProgramsController extends Controller
     }
     else{
       $programs = \Auth::user()->programs->sortBy('name');
-    }
-    
+    }    
     
     return view('programs/index', compact('programs'));
+  }
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | Details
+  |--------------------------------------------------------------------------
+  */
+  public function get_details($id){
+    $program = Program::find($id);
+
+    if (!$this->accessPermitted($program)){
+      return response()->view('error')->setStatusCode(401);
+    }
+
+    return view('programs/details', compact('program'));
+  }
+
+
+  /*
+  |--------------------------------------------------------------------------
+  | Utilities
+  |--------------------------------------------------------------------------
+  */
+  private function accessPermitted($program){
+    $u = \Auth::user();
+    return $program && ($u->super_admin || $program->users->contains($u));
   }
 }
