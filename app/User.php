@@ -27,6 +27,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    // relationships
     public function programs(){
         return $this->belongsToMany('\App\Program')
             ->where('active', 1);

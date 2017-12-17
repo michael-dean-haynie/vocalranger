@@ -3,31 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Program;
-use App\User;
+use App\Ensemble;
 
-class ProgramsController extends Controller
+class EnsemblesController extends Controller
 {
   /*
   |--------------------------------------------------------------------------
   | Index
   |--------------------------------------------------------------------------
   */
-  public function get_index(){
-
-    if(\Auth::user()->super_admin){
-      $programs = Program::query()
-        ->where('active', '=', '1')
-        ->orderBy('name', 'asc')
-        ->get();
-    }
-    else{
-      $programs = \Auth::user()->programs->sortBy('name');
-    }    
-    
-    return view('programs/index', compact('programs'));
-  }
-
 
   /*
   |--------------------------------------------------------------------------
@@ -35,13 +19,13 @@ class ProgramsController extends Controller
   |--------------------------------------------------------------------------
   */
   public function get_details($id){
-    $program = Program::find($id);
+    $ensemble = Ensemble::find($id);
 
-    if (!$this->accessPermitted($program)){
+    if (!$this->accessPermitted($ensemble)){
       return response()->view('error')->setStatusCode(401);
     }
 
-    return view('programs/details', compact('program'));
+    return view('ensembles/details', compact('ensemble'));
   }
 
 
@@ -52,6 +36,6 @@ class ProgramsController extends Controller
   */
   private function accessPermitted($model){
     $u = \Auth::user();
-    return $model && ($u->super_admin || $model->users->contains($u));
+    return $model && ($u->super_admin || $model->program->users->contains($u));
   }
 }

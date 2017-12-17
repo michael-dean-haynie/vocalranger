@@ -15,7 +15,8 @@ class Program extends Model
   }
 
   public function ensembles(){
-    return $this->hasMany('App\Ensemble');
+    return $this->hasMany('App\Ensemble')
+      ->where('active', 1);
   }
 
   public function users(){

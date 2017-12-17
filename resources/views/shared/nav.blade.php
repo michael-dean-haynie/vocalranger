@@ -9,8 +9,8 @@
                     <li><a class="{{ Helpers::checkAct($activeMenu, 'admins') }}" href="#">Admins</a></li>
                 @endif
                 <li><a class="{{ Helpers::checkAct($activeMenu, 'programs') }}" href="/programs">Programs</a></li>
-                <li><a class="{{ Helpers::checkAct($activeMenu, 'ensembles') }}" href="#">Ensembles</a></li>
-                <li><a class="{{ Helpers::checkAct($activeMenu, 'vocalists') }}" href="#">Vocalists</a></li>
+{{--                 <li><a class="{{ Helpers::checkAct($activeMenu, 'ensembles') }}" href="#">Ensembles</a></li>
+                <li><a class="{{ Helpers::checkAct($activeMenu, 'vocalists') }}" href="#">Vocalists</a></li> --}}
             @endif
             <li><a class="{{ Helpers::checkAct($activeMenu, 'about') }}" href="{{ route('about') }}">About</a></li>
         </ul>
