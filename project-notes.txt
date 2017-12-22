@@ -101,6 +101,15 @@ Program
 /recordings/edit/{recording_id}
 /recordings/delete/{recording_id}
 
+== Site Structure V2 ===============================================
+/programs/
+/programs/{id}
+
+/ensemble/{id}
+
+/vocalist/{id}?ensemble={id}
+
+
 
 == Important links ==================================================
 https://github.com/learningmedia/jquery.klavier
